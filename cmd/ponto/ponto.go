@@ -3,7 +3,8 @@ package main
 import "time"
 
 const (
-	formatoData = "2026-01-02"
+	formatoData = "2006-01-02"
+	formatoHora = "15:04"
 	extensao    = ".json"
 )
 

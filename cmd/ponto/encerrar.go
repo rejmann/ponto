@@ -8,8 +8,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const formatoHora = "15:04"
-
 var errNaoIniciada = errors.New("nenhuma jornada em andamento. Use 'ponto iniciar'")
 
 var encerrarCmd = &cobra.Command{
