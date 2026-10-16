@@ -17,6 +17,7 @@ func init() {
 	cmds := []*cobra.Command{
 		iniciarCmd,
 		encerrarCmd,
+		pausaCmd,
 	}
 
 	for _, c := range cmds {
