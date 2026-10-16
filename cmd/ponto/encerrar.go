@@ -14,7 +14,7 @@ var errNaoIniciada = errors.New("nenhuma jornada em andamento. Use 'ponto inicia
 
 var encerrarCmd = &cobra.Command{
 	Use:   "encerrar",
-	Short: "Mostrar o andamento do dia",
+	Short: "mostrar o andamento do dia",
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		return encerrar(time.Now())

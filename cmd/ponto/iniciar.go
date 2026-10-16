@@ -13,7 +13,7 @@ import (
 
 var iniciarCmd = &cobra.Command{
 	Use:   "iniciar",
-	Short: "Inicia o dia de trabalho",
+	Short: "inicia o dia de trabalho",
 	Args:  cobra.NoArgs,
 	RunE: func(c *cobra.Command, args []string) error {
 		return iniciar(time.Now())

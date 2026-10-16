@@ -8,7 +8,7 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use:           "ponto",
-	Short:         "Controle de ponto e pausas do dia de trabalho",
+	Short:         "controle de ponto e pausas do dia de trabalho",
 	SilenceUsage:  true,
 	SilenceErrors: false,
 }
@@ -18,6 +18,7 @@ func init() {
 		iniciarCmd,
 		encerrarCmd,
 		pausaCmd,
+		voltarCmd,
 	}
 
 	for _, c := range cmds {
