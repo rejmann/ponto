@@ -16,6 +16,7 @@ var rootCmd = &cobra.Command{
 func init() {
 	cmds := []*cobra.Command{
 		iniciarCmd,
+		encerrarCmd,
 	}
 
 	for _, c := range cmds {

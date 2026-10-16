@@ -11,38 +11,16 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type Periodo struct {
-	Inicio time.Time `json:"inicio"`
-	Fim    time.Time `json:"fim,omitempty"`
-}
-
-type Pausa struct {
-	Motivo string `json:"motivo"`
-	Periodo
-}
-
-type Dia struct {
-	Data  string  `json:"data"`
-	Pausa []Pausa `json:"pausas"`
-	Periodo
-}
-
-const (
-	formatoData = "2026-01-02"
-	extensao    = ".json"
-)
-
 var iniciarCmd = &cobra.Command{
 	Use:   "iniciar",
 	Short: "Inicia o dia de trabalho",
 	Args:  cobra.NoArgs,
-	Run: func(c *cobra.Command, args []string) {
-		iniciar()
+	RunE: func(c *cobra.Command, args []string) error {
+		return iniciar(time.Now())
 	},
 }
 
-func iniciar() error {
-	agora := time.Now()
+func iniciar(agora time.Time) error {
 	hoje := agora.Format(formatoData)
 
 	d, err := carregarDia(hoje)
