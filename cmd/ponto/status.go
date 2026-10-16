@@ -12,18 +12,16 @@ var statusCmd = &cobra.Command{
 	Short: "mostra o andamento do dia",
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return status(time.Now())
-	},
-}
+		agora := time.Now()
 
-func status(agora time.Time) error {
-	d, err := diaAberto(agora)
-	if err != nil {
-		fmt.Println("nenhuma jornada em andamento.")
+		d, err := diaAberto(agora)
+		if err != nil {
+			fmt.Println("nenhuma jornada em andamento.")
+			return nil
+		}
+
+		imprimirDia(d, agora)
+
 		return nil
-	}
-
-	imprimirDia(d, agora)
-
-	return nil
+	},
 }

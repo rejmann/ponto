@@ -15,22 +15,20 @@ var encerrarCmd = &cobra.Command{
 	Short: "mostrar o andamento do dia",
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return encerrar(time.Now())
+		agora := time.Now()
+
+		d, err := diaAberto(agora)
+		if err != nil {
+			return err
+		}
+		if p := d.pausaAtiva(); p != nil {
+			p.Fim = agora
+		}
+
+		d.Fim = agora
+
+		return salvarDia(d)
 	},
-}
-
-func encerrar(agora time.Time) error {
-	d, err := diaAberto(agora)
-	if err != nil {
-		return err
-	}
-	if p := d.pausaAtiva(); p != nil {
-		p.Fim = agora
-	}
-
-	d.Fim = agora
-
-	return salvarDia(d)
 }
 
 func diaAberto(agora time.Time) (*Dia, error) {

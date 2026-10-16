@@ -16,30 +16,28 @@ var iniciarCmd = &cobra.Command{
 	Short: "inicia o dia de trabalho",
 	Args:  cobra.NoArgs,
 	RunE: func(c *cobra.Command, args []string) error {
-		return iniciar(time.Now())
-	},
-}
+		agora := time.Now()
 
-func iniciar(agora time.Time) error {
-	hoje := agora.Format(formatoData)
+		hoje := agora.Format(formatoData)
 
-	d, err := carregarDia(hoje)
-	if err != nil {
-		return err
-	}
-	if d != nil {
-		if d.Fim.IsZero() {
-			return errors.New("a jornada de hoje ja esta em andamento")
+		d, err := carregarDia(hoje)
+		if err != nil {
+			return err
+		}
+		if d != nil {
+			if d.Fim.IsZero() {
+				return errors.New("a jornada de hoje ja esta em andamento")
+			}
+
+			return errors.New("a jornada de hoje ja foi encerrada")
 		}
 
-		return errors.New("a jornada de hoje ja foi encerrada")
-	}
+		d = NewDia(hoje, agora)
 
-	d = NewDia(hoje, agora)
+		fmt.Printf("bom dia! jornada iniciada as %s.\n", agora.Format("15:04"))
 
-	fmt.Printf("bom dia! jornada iniciada as %s.\n", agora.Format("15:04"))
-
-	return salvarDia(d)
+		return salvarDia(d)
+	},
 }
 
 func carregarDia(data string) (*Dia, error) {

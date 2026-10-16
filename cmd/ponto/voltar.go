@@ -13,29 +13,27 @@ var voltarCmd = &cobra.Command{
 	Short: "encerra a pausa atual",
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return voltar(time.Now())
+		agora := time.Now()
+
+		d, err := diaAberto(agora)
+		if err != nil {
+			return err
+		}
+
+		p := d.pausaAtiva()
+		if p == nil {
+			return errors.New("nenhuma pausa em andamento")
+		}
+		p.Fim = agora
+
+		detalhe := ""
+		if p.Motivo != "" {
+			detalhe = fmt.Sprintf(" (%s)", p.Motivo)
+		}
+
+		fmt.Printf("de volta! pausa%s durou %s.\n",
+			detalhe, fmtDur(agora.Sub(p.Inicio)))
+
+		return salvarDia(d)
 	},
-}
-
-func voltar(agora time.Time) error {
-	d, err := diaAberto(agora)
-	if err != nil {
-		return err
-	}
-
-	p := d.pausaAtiva()
-	if p == nil {
-		return errors.New("nenhuma pausa em andamento")
-	}
-	p.Fim = agora
-
-	detalhe := ""
-	if p.Motivo != "" {
-		detalhe = fmt.Sprintf(" (%s)", p.Motivo)
-	}
-
-	fmt.Printf("de volta! pausa%s durou %s.\n",
-		detalhe, fmtDur(agora.Sub(p.Inicio)))
-
-	return salvarDia(d)
 }
