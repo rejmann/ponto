@@ -35,6 +35,7 @@ const (
 var iniciarCmd = &cobra.Command{
 	Use:   "iniciar",
 	Short: "Inicia o dia de trabalho",
+	Args:  cobra.NoArgs,
 	Run: func(c *cobra.Command, args []string) {
 		iniciar()
 	},
