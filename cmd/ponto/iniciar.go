@@ -13,7 +13,7 @@ import (
 
 type Periodo struct {
 	Inicio time.Time `json:"inicio"`
-	Fim    time.Time `json:"fim"`
+	Fim    time.Time `json:"fim,omitempty"`
 }
 
 type Pausa struct {
