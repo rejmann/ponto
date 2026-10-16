@@ -49,6 +49,10 @@ func (d *Dia) trabalhado(agora time.Time) time.Duration {
 	return total
 }
 
+func NewDia(hoje string, agora time.Time) *Dia {
+	return &Dia{Data: hoje, Periodo: Periodo{Inicio: agora}}
+}
+
 func NewPausa(motivo string, agora time.Time) *Pausa {
 	return &Pausa{Motivo: motivo, Periodo: Periodo{Inicio: agora}}
 }

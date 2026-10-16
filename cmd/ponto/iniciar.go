@@ -35,12 +35,7 @@ func iniciar(agora time.Time) error {
 		return errors.New("a jornada de hoje ja foi encerrada")
 	}
 
-	d = &Dia{
-		Data: hoje,
-		Periodo: Periodo{
-			Inicio: agora,
-		},
-	}
+	d = NewDia(hoje, agora)
 
 	fmt.Printf("bom dia! jornada iniciada as %s.\n", agora.Format("15:04"))
 
