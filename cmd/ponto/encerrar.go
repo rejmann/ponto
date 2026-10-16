@@ -70,12 +70,15 @@ func imprimirDia(d *Dia, agora time.Time) {
 
 		dur := fim.Sub(p.Inicio)
 		total += dur
-		fmt.Printf("  - %s  %s-%s  %s%s\n",
+		fmt.Printf("  - %s - %s-%s %s%s\n\n",
 			p.Motivo, p.Inicio.Format(formatoHora), fim.Format(formatoHora), fmtDur(dur), emAndamento)
 	}
 }
 
 func fmtDur(d time.Duration) string {
-	d = d.Round(time.Minute)
-	return fmt.Sprintf("%dh%02dm", int(d.Hours()), int(d.Minutes())%60)
+	h := int(d / time.Hour)
+	m := int(d % time.Hour / time.Minute)
+	s := int(d % time.Minute / time.Second)
+
+	return fmt.Sprintf("%dh%02dm%02ds", h, m, s)
 }
