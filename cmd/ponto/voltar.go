@@ -29,8 +29,13 @@ func voltar(agora time.Time) error {
 	}
 	p.Fim = agora
 
-	fmt.Printf("de volta! pausa (%s) durou %s.\n",
-		p.Motivo, fmtDur(agora.Sub(p.Inicio)))
+	detalhe := ""
+	if p.Motivo != "" {
+		detalhe = fmt.Sprintf(" (%s)", p.Motivo)
+	}
+
+	fmt.Printf("de volta! pausa%s durou %s.\n",
+		detalhe, fmtDur(agora.Sub(p.Inicio)))
 
 	return salvarDia(d)
 }
