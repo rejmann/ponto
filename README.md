@@ -4,13 +4,53 @@ CLI simples para registrar a jornada de trabalho do dia: início, pausas (com mo
 
 ## Instalação
 
+Os comandos abaixo sempre baixam a release **mais recente** do [GitHub Releases](https://github.com/rejmann/ponto/releases/latest), sem número de versão para atualizar. O `ponto` vai para `~/.local/bin`, um diretório do seu usuário: não precisa de `sudo`. Para atualizar, rode o mesmo comando de novo.
+
+### Linux (x86_64)
+
+```sh
+mkdir -p ~/.local/bin
+curl -fsSL https://github.com/rejmann/ponto/releases/latest/download/ponto-linux-amd64.tar.gz \
+  | tar -xz -C ~/.local/bin ponto
+export PATH="$HOME/.local/bin:$PATH"   # adicione esta linha ao ~/.bashrc / ~/.zshrc também
+```
+
+### Linux (ARM64)
+
+```sh
+mkdir -p ~/.local/bin
+curl -fsSL https://github.com/rejmann/ponto/releases/latest/download/ponto-linux-arm64.tar.gz \
+  | tar -xz -C ~/.local/bin ponto
+export PATH="$HOME/.local/bin:$PATH"   # adicione esta linha ao ~/.bashrc / ~/.zshrc também
+```
+
+> Na maioria das distribuições `~/.local/bin` já está no `PATH`; nesse caso o `export` é desnecessário.
+
+### Instalando uma versão específica
+
+Troque `latest/download` por `download/<tag>` em qualquer um dos comandos acima. Por exemplo:
+
+```sh
+VERSION=v1.0.1
+curl -fsSL "https://github.com/rejmann/ponto/releases/download/${VERSION}/ponto-linux-amd64.tar.gz" \
+  | tar -xz -C ~/.local/bin ponto
+```
+
+Todas as tags disponíveis estão na [página de releases](https://github.com/rejmann/ponto/releases).
+
+### Verificar
+
+```sh
+ponto --help
+```
+
+### Com Go
+
 Com Go 1.23+:
 
 ```sh
 go install github.com/rejmann/ponto/cmd/ponto@latest
 ```
-
-Ou baixe o binário para Linux na página de [Releases](https://github.com/rejmann/ponto/releases).
 
 Para compilar a partir do código:
 
