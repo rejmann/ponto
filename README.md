@@ -101,3 +101,11 @@ Tudo fica no pacote `main` em [cmd/ponto/](cmd/ponto/), usando [cobra](https://g
 ## Release
 
 O workflow [release.yml](.github/workflows/release.yml) roda quando um PR que altera arquivos Go (`**.go`, `go.mod`, `go.sum`) é mergeado na `main`. Ele gera a tag de versão, compila o binário para Linux e publica uma GitHub Release com notas geradas automaticamente, usando os workflows reutilizáveis de [rejmann/github-actions](https://github.com/rejmann/github-actions).
+
+Também é possível disparar um release manualmente, pela aba **Actions → Release → Run workflow** ou com:
+
+```sh
+gh workflow run release.yml --ref main
+```
+
+Se o commit da `main` já tiver uma tag `v*`, a mesma versão é reaproveitada; caso contrário, é criada a próxima versão de patch.
