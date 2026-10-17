@@ -1,0 +1,48 @@
+name: Release
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+    paths:
+      - "**.go"
+      - go.mod
+      - go.sum
+
+permissions:
+  contents: write
+
+jobs:
+  version:
+    if: |
+      github.event.pull_request.merged == true
+    uses: rejmann/github-actions/.github/workflows/version-tag.yml@main
+    secrets: inherit
+
+  build:
+    needs: version
+    uses: rejmann/github-actions/.github/workflows/golang-build.yml@main
+    with:
+      version: ${{ needs.version.outputs.version }}
+      platform: linux
+
+  release:
+    name: Publish Release
+    needs:
+      - version
+      - build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.version.outputs.version }}
+          name: ${{ needs.version.outputs.version }}
+          files: dist/*
+          generate_release_notes: true
