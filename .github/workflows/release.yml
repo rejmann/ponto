@@ -27,6 +27,8 @@ jobs:
     with:
       version: ${{ needs.version.outputs.version }}
       platform: linux
+      name: ponto
+      package: ./cmd/ponto
 
   release:
     name: Publish Release
