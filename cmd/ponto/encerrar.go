@@ -27,7 +27,13 @@ var encerrarCmd = &cobra.Command{
 
 		d.Fim = agora
 
-		return salvarDia(d)
+		if err := salvarDia(d); err != nil {
+			return err
+		}
+
+		imprimirDia(d, agora)
+
+		return nil
 	},
 }
 
@@ -40,8 +46,6 @@ func diaAberto(agora time.Time) (*Dia, error) {
 	if d == nil || !d.Fim.IsZero() {
 		return nil, errNaoIniciada
 	}
-
-	imprimirDia(d, agora)
 
 	return d, nil
 }
