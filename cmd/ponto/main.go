@@ -20,6 +20,7 @@ func init() {
 		pausaCmd,
 		voltarCmd,
 		statusCmd,
+		historicoCmd,
 	}
 
 	for _, c := range cmds {
