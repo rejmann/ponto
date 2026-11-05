@@ -26,7 +26,7 @@ jobs:
     uses: rejmann/github-actions/.github/workflows/golang-build.yml@main
     with:
       version: ${{ needs.version.outputs.version }}
-      platform: linux
+      platform: all
       name: ponto
       package: ./cmd/ponto
 

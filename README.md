@@ -26,6 +26,38 @@ export PATH="$HOME/.local/bin:$PATH"   # adicione esta linha ao ~/.bashrc / ~/.z
 
 > Na maioria das distribuições `~/.local/bin` já está no `PATH`; nesse caso o `export` é desnecessário.
 
+### macOS (Apple Silicon)
+
+```sh
+mkdir -p ~/.local/bin
+curl -fsSL https://github.com/rejmann/ponto/releases/latest/download/ponto-darwin-arm64.tar.gz \
+  | tar -xz -C ~/.local/bin ponto
+export PATH="$HOME/.local/bin:$PATH"   # adicione esta linha ao ~/.zshrc também
+```
+
+Em Macs Intel, troque `darwin-arm64` por `darwin-amd64`.
+
+### Windows (x86_64)
+
+No PowerShell (sem precisar de administrador):
+
+```powershell
+$dir = "$env:LOCALAPPDATA\Programs\ponto"
+New-Item -ItemType Directory -Force -Path $dir | Out-Null
+$zip = "$env:TEMP\ponto.zip"
+Invoke-WebRequest https://github.com/rejmann/ponto/releases/latest/download/ponto-windows-amd64.zip -OutFile $zip
+Expand-Archive $zip -DestinationPath $dir -Force
+Remove-Item $zip
+
+# adiciona a pasta ao PATH do usuário (só precisa na primeira vez)
+$userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+if ($userPath -notlike "*$dir*") {
+  [Environment]::SetEnvironmentVariable("Path", "$userPath;$dir", "User")
+}
+```
+
+Feche e abra o terminal para o `PATH` ser recarregado.
+
 ### Instalando uma versão específica
 
 Troque `latest/download` por `download/<tag>` em qualquer um dos comandos acima. Por exemplo:
@@ -103,7 +135,7 @@ pausas:
 
 ## Armazenamento
 
-Cada dia é salvo como um arquivo JSON em `~/.ponto/`, nomeado pela data:
+Cada dia é salvo como um arquivo JSON em `~/.ponto/` (no Windows, `%USERPROFILE%\.ponto\`), nomeado pela data:
 
 ```
 ~/.ponto/2026-10-16.json
@@ -124,7 +156,7 @@ Cada dia é salvo como um arquivo JSON em `~/.ponto/`, nomeado pela data:
 }
 ```
 
-O diretório é criado com permissão `0700` e os arquivos com `0600`. Os arquivos podem ser editados à mão para corrigir um horário; se o JSON ficar inválido, o comando avisa que o arquivo está corrompido.
+O diretório é criado com permissão `0700` e os arquivos com `0600` (no Windows essas permissões são ignoradas e valem as ACLs da pasta do usuário). Os arquivos podem ser editados à mão para corrigir um horário; se o JSON ficar inválido, o comando avisa que o arquivo está corrompido.
 
 ## Estrutura do código
 
@@ -140,7 +172,7 @@ Tudo fica no pacote `main` em [cmd/ponto/](cmd/ponto/), usando [cobra](https://g
 
 ## Release
 
-O workflow [release.yml](.github/workflows/release.yml) roda quando um PR que altera arquivos Go (`**.go`, `go.mod`, `go.sum`) é mergeado na `main`. Ele gera a tag de versão, compila o binário para Linux e publica uma GitHub Release com notas geradas automaticamente, usando os workflows reutilizáveis de [rejmann/github-actions](https://github.com/rejmann/github-actions).
+O workflow [release.yml](.github/workflows/release.yml) roda quando um PR que altera arquivos Go (`**.go`, `go.mod`, `go.sum`) é mergeado na `main`. Ele gera a tag de versão, compila os binários para Linux (amd64/arm64), macOS (amd64/arm64) e Windows (amd64) e publica uma GitHub Release com notas geradas automaticamente, usando os workflows reutilizáveis de [rejmann/github-actions](https://github.com/rejmann/github-actions).
 
 Também é possível disparar um release manualmente, pela aba **Actions → Release → Run workflow** ou com:
 
