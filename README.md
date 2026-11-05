@@ -26,17 +26,6 @@ export PATH="$HOME/.local/bin:$PATH"   # adicione esta linha ao ~/.bashrc / ~/.z
 
 > Na maioria das distribuições `~/.local/bin` já está no `PATH`; nesse caso o `export` é desnecessário.
 
-### macOS (Apple Silicon)
-
-```sh
-mkdir -p ~/.local/bin
-curl -fsSL https://github.com/rejmann/ponto/releases/latest/download/ponto-darwin-arm64.tar.gz \
-  | tar -xz -C ~/.local/bin ponto
-export PATH="$HOME/.local/bin:$PATH"   # adicione esta linha ao ~/.zshrc também
-```
-
-Em Macs Intel, troque `darwin-arm64` por `darwin-amd64`.
-
 ### Windows (x86_64)
 
 No PowerShell (sem precisar de administrador):
@@ -172,7 +161,7 @@ Tudo fica no pacote `main` em [cmd/ponto/](cmd/ponto/), usando [cobra](https://g
 
 ## Release
 
-O workflow [release.yml](.github/workflows/release.yml) roda quando um PR que altera arquivos Go (`**.go`, `go.mod`, `go.sum`) ou o próprio `release.yml` é mergeado na `main`. Ele gera a tag de versão, compila os binários para Linux (amd64/arm64), macOS (amd64/arm64) e Windows (amd64) e publica uma GitHub Release com notas geradas automaticamente, usando os workflows reutilizáveis de [rejmann/github-actions](https://github.com/rejmann/github-actions).
+O workflow [release.yml](.github/workflows/release.yml) roda quando um PR que altera arquivos Go (`**.go`, `go.mod`, `go.sum`) ou o próprio `release.yml` é mergeado na `main`. Ele gera a tag de versão, compila os binários para Linux (amd64/arm64) e Windows (amd64) e publica uma GitHub Release com notas geradas automaticamente, usando os workflows reutilizáveis de [rejmann/github-actions](https://github.com/rejmann/github-actions).
 
 Também é possível disparar um release manualmente, pela aba **Actions → Release → Run workflow** ou com:
 
